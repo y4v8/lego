@@ -11,9 +11,7 @@ import (
 	"github.com/go-acme/lego/v4/acme"
 	"github.com/go-acme/lego/v4/acme/api"
 	"github.com/go-acme/lego/v4/challenge"
-	"github.com/go-acme/lego/v4/challenge/dns01"
 	"github.com/go-acme/lego/v4/challenge/http01"
-	"github.com/go-acme/lego/v4/challenge/tlsalpn01"
 	"github.com/go-acme/lego/v4/log"
 )
 
@@ -38,18 +36,6 @@ func NewSolversManager(core *api.Core) *SolverManager {
 // SetHTTP01Provider specifies a custom provider p that can solve the given HTTP-01 challenge.
 func (c *SolverManager) SetHTTP01Provider(p challenge.Provider) error {
 	c.solvers[challenge.HTTP01] = http01.NewChallenge(c.core, validate, p)
-	return nil
-}
-
-// SetTLSALPN01Provider specifies a custom provider p that can solve the given TLS-ALPN-01 challenge.
-func (c *SolverManager) SetTLSALPN01Provider(p challenge.Provider) error {
-	c.solvers[challenge.TLSALPN01] = tlsalpn01.NewChallenge(c.core, validate, p)
-	return nil
-}
-
-// SetDNS01Provider specifies a custom provider p that can solve the given DNS-01 challenge.
-func (c *SolverManager) SetDNS01Provider(p challenge.Provider, opts ...dns01.ChallengeOption) error {
-	c.solvers[challenge.DNS01] = dns01.NewChallenge(c.core, validate, p, opts...)
 	return nil
 }
 
